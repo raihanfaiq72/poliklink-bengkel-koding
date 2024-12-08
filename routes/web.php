@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminWell;
+use App\Http\Controllers\Dokter\DokterWell;
+use App\Http\Controllers\Pasien\PasienWell;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,14 +10,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// admin
+Route::middleware(['auth','verified'])->group(function(){
+    Route::controller(AdminWell::class)->group(function(){
+        Route::get('admin/dashboard','dashboard')->name('dashboard');
+        Route::get('admin/poli','poli')->name('poli');
+        Route::post('admin/poli','poli_post')->name('poli-post');
+    });
 });
 
+// dokter
+Route::middleware(['auth','dokter'])->group(function(){
+    Route::controller(DokterWell::class)->group(function(){
+        Route::get('dokter/dashboard','dashboard')->name('dokter-dashboard');
+    });
+});
+
+// pasien
+Route::middleware(['auth','pasien'])->group(function(){
+    Route::controller(PasienWell::class)->group(function(){
+        Route::get('pasien/dashboard','dashboard')->name('pasien-dashboard');
+    });
+});
 require __DIR__.'/auth.php';
