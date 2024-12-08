@@ -26,22 +26,34 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Inputkan Nama Poli</h3>
+                                <h3 class="card-title">Inputkan Dokter</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{route('poli-post')}}" method="POST">
+                            <form action="{{route('dokter-post')}}" method="POST">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="namapoli">Nama Poli</label>
-                                        <input type="text" name="nama_poli" class="form-control " placeholder="Polio">
+                                        <label for="namapoli">Nama Dokter</label>
+                                        <input type="text" name="nama_dokter" class="form-control " >
                                     </div>
                                     <div class="form-group">
-                                        <label for="keterangan">keterangan</label>
-                                        <input type="text" name="keterangan" class="form-control"
-                                            placeholder="keterangan">
+                                        <label for="namapoli">Alamat</label>
+                                        <input type="text" name="alamat" class="form-control " >
                                     </div>
+                                    <div class="form-group">
+                                        <label for="namapoli">No Hp</label>
+                                        <input type="text" name="no_hp" class="form-control " >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="namapoli">Poli</label>
+                                        <select name="id_poli" class="form-control ">
+                                            <option value="#">== Silahkan Pilih ==</option>
+                                            @foreach ($poli as $polri)
+                                                <option value="{{$polri->id}}">{{$polri->nama_poli}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>  
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
@@ -62,7 +74,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Daftar Nama Poli</h3>
+                                <h3 class="card-title">Daftar Dokter</h3>
 
                                 <div class="card-tools">
                                     <div class="input-group input-group-sm" style="width: 150px;">
@@ -83,21 +95,28 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Nama Poli</th>
-                                            <th>keterangan</th>
+                                            <th>Nama Dokter</th>
+                                            <th>Alamat</th>
+                                            <th>No HP</th>
+                                            <th>Poli</th>
+                                            <th>Katasandi</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($poli as $polri)
+                                        @forelse ($dokter as $polri)
                                         <tr>
+
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$polri->nama_poli}}</td>
-                                            <td>{{$polri->keterangan}}</td>
+                                            <td>{{$polri->nama_dokter}}</td>
+                                            <td>{{$polri->alamat}}</td>
+                                            <td>{{$polri->no_hp}}</td>
+                                            <td>{{$polri->poli->nama_poli}}</td>
+                                            <td>{{$polri->katasandi}}</td>
                                             <td>
                                                 <div class="d-flex justify-content">
-                                                    <a href="{{ url('admin/poli/' . $polri->id) }}" class="btn btn-primary">Edit</a>
-                                                    <form action="{{ url('admin/poli/' . $polri->id) }}/delete" method="POST" style="margin-left: 10px;">
+                                                    <a href="{{ url('admin/dokter/' . $polri->id) }}" class="btn btn-primary">Edit</a>
+                                                    <form action="{{ url('admin/dokter/' . $polri->id) }}/delete" method="POST" style="margin-left: 10px;">
                                                         @csrf
                                                         <button class="btn btn-danger" onclick="confirmDelete('{{ url('admin/poli/' . $polri->id) }}/delete')">Hapus</button>                                                    </form>
                                                 </div>

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('no_hp');
             $table->integer('id_poli');
+            $table->string('katasandi');
+            $table->string('password');
             $table->timestamps();
         });
     }

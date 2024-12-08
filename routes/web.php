@@ -14,8 +14,18 @@ Route::get('/', function () {
 Route::middleware(['auth','verified'])->group(function(){
     Route::controller(AdminWell::class)->group(function(){
         Route::get('admin/dashboard','dashboard')->name('dashboard');
+        
         Route::get('admin/poli','poli')->name('poli');
         Route::post('admin/poli','poli_post')->name('poli-post');
+        Route::get('admin/poli/{id}','poli_edit')->name('poli-edit');
+        Route::put('admin/poli/{id}','poli_update')->name('poli-update');
+        Route::post('admin/poli/{id}/delete','poli_delete')->name('poli-delete');
+        
+        Route::get('admin/dokter','dokter')->name('dokter');
+        Route::post('admin/dokter','dokter_post')->name('dokter-post');
+        Route::get('admin/dokter/{id}','dokter_edit')->name('dokter-edit');
+        Route::put('admin/dokter/{id}','dokter_update')->name('dokter-update');
+        Route::post('admin/dokter/{id}/delete','dokter_delete')->name('dokter-delete');
     });
 });
 
