@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Dokter;
 use App\Models\Obat;
+use App\Models\Pasien;
 use App\Models\Poli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -273,6 +274,74 @@ class AdminWell extends Controller
             'type'      => 'success',
             'title'     => 'Berhasil',
             'message'   => 'Data Berhasil Dihapus'
+        ]);
+    }
+
+    public function pasien()
+    {
+        return view($this->views."Pasien.index",[
+            'pasien'    => Pasien::get()
+        ]);
+    }
+
+    public function pasien_post(Request $request)
+    {
+        $data = $request->validate($request->all());
+
+        try{
+            Pasien::create($data);
+
+            return redirect()->back()->with('alert',[
+                'type' => 'success',
+                'title' => 'Berhasil',
+                'message'   => 'Berhasil Menambahkan Data Pasien'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with('alert',[
+                'type' => 'error',
+                'title' => 'Gagal',
+                'message'   => 'Gagal Menambahkan Data Pasien'
+            ]);
+        }
+    }
+
+    public function pasien_edit($id)
+    {
+        return view($this->views."Pasien.edit",[
+            'pasien'    => Pasien::where('id',$id)->first()
+        ]);
+    }
+
+    public function pasien_update(Request $request,$id)
+    {
+        $data = $request->validate($request->all());
+        try{
+            $pasien = Pasien::where('id',$id)->first();
+            $pasien->update($data);
+
+            return redirect()->route('pasien')->with('alert',[
+                'type' => 'success',
+                'title' => 'Berhasil',
+                'message'   => 'Berhasil Mengedit Data Pasien'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with('alert',[
+                'type' => 'error',
+                'title' => 'Gagal',
+                'message'   => 'Gagal Mengedit Data Pasien'
+            ]);
+        }
+    }
+
+    public function pasien_delete($id)
+    {
+        $data = Pasien::where('id',$id)->first();
+        $data->delete();
+
+        return redirect()->back()->with('alert',[
+            'type' => 'success',
+            'title' => 'Berhasil',
+            'message'   => 'Berhasil Menghapus Data Pasien'
         ]);
     }
 }

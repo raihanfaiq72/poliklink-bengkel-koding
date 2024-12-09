@@ -32,6 +32,12 @@ Route::middleware(['auth','verified'])->group(function(){
         Route::get('admin/obat/{id}','obat_edit')->name('obat-edit');
         Route::put('admin/obat/{id}','obat_update')->name('obat-update');
         Route::post('admin/obat/{id}/delete','obat_delete')->name('obat-delete');
+
+        Route::get('admin/pasien','pasien')->name('pasien');
+        Route::post('admin/pasien','pasien_post')->name('pasien-post');
+        Route::get('admin/pasien/{id}','pasien_edit')->name('pasien-edit');
+        Route::put('admin/pasien/{id}','pasien_update')->name('pasien-update');
+        Route::post('admin/pasien/{id}/delete','pasien_delete')->name('pasien-delete');
     });
 });
 

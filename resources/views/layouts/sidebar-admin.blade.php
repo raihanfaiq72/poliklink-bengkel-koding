@@ -23,7 +23,7 @@
         </li>
 
         <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="{{route('pasien')}}" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Pasien
@@ -43,7 +43,7 @@
         </li>
 
         <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="{{route('obat')}}" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                     Obat
