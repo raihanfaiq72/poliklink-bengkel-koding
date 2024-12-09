@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dokter;
+use App\Models\Obat;
 use App\Models\Poli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -154,50 +155,40 @@ class AdminWell extends Controller
 
     public function dokter_update(Request $request,$id)
     {
-        // $request->validate([
-        //     'nama_dokter'      => 'required',
-        //     'alamat'           => 'required',
-        //     'no_hp'            => 'required',
-        //     'id_poli'          => 'required',
-        //     'password'         => 'required'
-        // ]);
+        $request->validate([
+            'nama_dokter'      => 'required',
+            'alamat'           => 'required',
+            'no_hp'            => 'required',
+            'id_poli'          => 'required',
+            'password'         => 'required'
+        ]);
 
-        // // dd($data);
-        
-        // try{
-        //     $dokter = Dokter::where('id',$id)->first();
-        //     $dokter->update([
-        //         'nama_dokter'      => $request->nama_dokter,
-        //         'alamat'           => $request->alamat,
-        //         'no_hp'            => $request->no_hp,
-        //         'id_poli'          => $request->id_poli,
-        //         'katasandi'        => $request->password,
-        //         'password'         => Hash::make($request->password)
-        //     ]);
-
-        //     return redirect()->route('admin/dokter')->with('alert',[
-        //         'type'      => 'success',
-        //         'title'     => 'Berhasil',
-        //         'message'   => 'Berhasil Edit Data'
-        //     ]);
-        // }catch(\Exception $e){
-        //     return redirect()->back()->with('alert',[
-        //         'type'      => 'error',
-        //         'title'     => 'Gagal',
-        //         'message'   => 'Gagal Edit Data'
-        //     ]);
-        // }
-        dd([
-            'nama_dokter'      => $request->nama_dokter,
+        try{
+            $dokter = Dokter::where('id',$id)->first();
+            $dokter->update([
+                'nama_dokter'      => $request->nama_dokter,
                 'alamat'           => $request->alamat,
                 'no_hp'            => $request->no_hp,
                 'id_poli'          => $request->id_poli,
                 'katasandi'        => $request->password,
                 'password'         => Hash::make($request->password)
-        ]);
+            ]);
+
+            return redirect()->route('dokter')->with('alert',[
+                'type'      => 'success',
+                'title'     => 'Berhasil',
+                'message'   => 'Berhasil Edit Data'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with('alert',[
+                'type'      => 'error',
+                'title'     => 'Gagal',
+                'message'   => 'Gagal Edit Data'
+            ]);
+        }
     }
 
-    public function delete_dokter($id)
+    public function dokter_delete($id)
     {
         $dokter = Dokter::where('id',$id)->first();
         $dokter->delete();
@@ -206,6 +197,82 @@ class AdminWell extends Controller
             'type'  => 'success',
             'title' => 'Berhasil',
             'message'   => 'Berhasil menghapus data'
+        ]);
+    }
+
+    public function obat()
+    {
+        return view($this->views."Obat.index",[
+            'obat'  => Obat::get()
+        ]);
+    }
+
+    public function obat_post(Request $request)
+    {
+        $data = $request->validate([
+            'nama_obat' => 'required',
+            'kemasan'   => 'required',
+            'harga'     => 'required',
+        ]);
+
+        try{
+            Obat::create($data);
+            return redirect()->back()->with('alert',[
+                'type'  => 'success',
+                'title' => 'Berhasil',
+                'message'   => 'Data Berhasil Ditambahkan'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with('alert',[
+                'type'  => 'error',
+                'title' => 'Gagal',
+                'message'   => 'Data Gagal Ditambahkan'
+            ]);
+        }
+    }
+
+    public function obat_edit($id)
+    {
+        return view($this->views."Obat.edit",[
+            'obat'  => Obat::where('id',$id)->first()
+        ]);
+    }
+
+    public function obat_update(Request $request,$id)
+    {
+        $data = $request->validate([
+            'nama_obat' => 'required',
+            'kemasan'   => 'required',
+            'harga'     => 'required',
+        ]);
+
+        try{
+            $obat = Obat::where('id',$id)->first();
+            $obat->update($data);
+
+            return redirect()->route('obat')->with('alert',[
+                'type'      => 'success',
+                'title'     => 'Berhasil',
+                'message'   => 'Data Berhasil Di update'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->route('obat')->with('alert',[
+                'type'      => 'error',
+                'title'     => 'Gagal',
+                'message'   => 'Data Gagal Di update'
+            ]);
+        }
+    }
+
+    public function obat_delete($id)
+    {
+        $obat = Obat::where('id',$id)->first();
+        $obat->delete();
+
+        return redirect()->back()->with('alert',[
+            'type'      => 'success',
+            'title'     => 'Berhasil',
+            'message'   => 'Data Berhasil Dihapus'
         ]);
     }
 }
