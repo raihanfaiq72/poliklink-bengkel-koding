@@ -286,7 +286,12 @@ class AdminWell extends Controller
 
     public function pasien_post(Request $request)
     {
-        $data = $request->validate($request->all());
+        $data = $request->validate([
+            'nama'  => 'required',
+            'alamat'=> 'required',
+            'no_ktp'=> 'required',
+            'no_rm' => 'required'
+        ]);
 
         try{
             Pasien::create($data);
@@ -314,7 +319,12 @@ class AdminWell extends Controller
 
     public function pasien_update(Request $request,$id)
     {
-        $data = $request->validate($request->all());
+        $data = $request->validate([
+            'nama'  => 'required',
+            'alamat'=> 'required',
+            'no_ktp'=> 'required',
+            'no_rm' => 'required'
+        ]);
         try{
             $pasien = Pasien::where('id',$id)->first();
             $pasien->update($data);
