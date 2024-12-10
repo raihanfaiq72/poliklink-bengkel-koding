@@ -15,6 +15,12 @@ class Dokter
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (session()->get('role') !== 'dokter') {
+            
+            session()->forget('role');
+
+            return redirect()->to('/')->with('error', 'Anda bukan Admin!');
+        }
         return $next($request);
     }
 }

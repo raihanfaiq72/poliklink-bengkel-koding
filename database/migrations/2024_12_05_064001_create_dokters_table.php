@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('id_poli');
             $table->string('katasandi');
             $table->string('password');
+            $table->string('role');
             $table->timestamps();
         });
     }

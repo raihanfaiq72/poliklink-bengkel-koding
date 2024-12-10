@@ -168,7 +168,7 @@ class AdminWell extends Controller
             'id_poli'           => 'Poli harus diisi'
         ]);
 
-       try{
+       try{ 
             $password = Str::random(6);
             Dokter::create([
                 'nama_dokter'      => $request->nama_dokter,
