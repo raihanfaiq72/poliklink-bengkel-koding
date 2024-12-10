@@ -21,7 +21,7 @@ class AdminWell extends Controller
         return view($this->views."Auth.login");
     }
 
-    public function loginProses(Request $request)
+    public function login_proses(Request $request)
     {
         $anonim = $request->validate([
             'username'  => 'required',
@@ -38,12 +38,20 @@ class AdminWell extends Controller
 
         $session = [
             'username'  => $anonim['username'],
-            'password'  => $anonim['password']
+            'password'  => $anonim['password'],
+            'role'      => 'admin',
+            'isLogin'   => TRUE
         ];
 
         session($session);
 
         return redirect()->route('dashboard')->with('success','berhasil login');
+    }
+
+    public function logut()
+    {
+        session()->flush();
+        return redirect('/');
     }
     
     public function dashboard()
@@ -161,7 +169,8 @@ class AdminWell extends Controller
                 'no_hp'            => $request->no_hp,
                 'id_poli'          => $request->id_poli,
                 'katasandi'        => $password,
-                'password'         => Hash::make($password)
+                'password'         => Hash::make($password),
+                'role'             => 'dokter'
             ]);
             return redirect()->back()->with('alert',[
                 'type'      => 'success',
@@ -204,7 +213,8 @@ class AdminWell extends Controller
                 'no_hp'            => $request->no_hp,
                 'id_poli'          => $request->id_poli,
                 'katasandi'        => $request->password,
-                'password'         => Hash::make($request->password)
+                'password'         => Hash::make($request->password),
+                'role'             => 'dokter'
             ]);
 
             return redirect()->route('dokter')->with('alert',[
@@ -329,13 +339,18 @@ class AdminWell extends Controller
     public function pasien_post(Request $request)
     {
         $data = $request->validate([
-            'nama'  => 'required',
-            'alamat'=> 'required',
-            'no_ktp'=> 'required',
-            'no_rm' => 'required'
+            'nama'      => 'required',
+            'username'  => 'required',
+            'alamat'    => 'required', 
+            'no_ktp'    => 'required',
+            'no_rm'     => 'required'
         ]);
 
         try{
+            $data['role']      = 'pasien'; 
+            $pswd              = Str::random(6);
+            $data['password']  = Hash::make($pswd);
+            $data['katasandi'] = $pswd;
             Pasien::create($data);
 
             return redirect()->back()->with('alert',[
@@ -362,13 +377,17 @@ class AdminWell extends Controller
     public function pasien_update(Request $request,$id)
     {
         $data = $request->validate([
-            'nama'  => 'required',
-            'alamat'=> 'required',
-            'no_ktp'=> 'required',
-            'no_rm' => 'required'
+            'nama'      => 'required',
+            'alamat'    => 'required',
+            'no_ktp'    => 'required',
+            'no_rm'     => 'required',
+            'password'  => 'required'
         ]);
         try{
-            $pasien = Pasien::where('id',$id)->first();
+            $pasien               = Pasien::where('id',$id)->first();
+            $data['password']     = Hash::make($request->password);
+            $data['katasandi']    = $request->password;
+            $data['role']         = 'pasien';
             $pasien->update($data);
 
             return redirect()->route('pasien')->with('alert',[

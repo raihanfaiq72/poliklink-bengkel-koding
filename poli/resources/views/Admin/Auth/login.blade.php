@@ -121,12 +121,12 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="https://adminlte.io/themes/v3/index2.html" class="h1"><b>PASIEN</b></a>
+                <a href="https://adminlte.io/themes/v3/index2.html" class="h1"><b>ADMIN</b></a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Login</p>
                 @include('Layout.login-alert')
-                <form action="{{route('login.proses.pasien')}}" method="post">
+                <form action="{{route('login.proses.admin')}}" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="username" name="username">

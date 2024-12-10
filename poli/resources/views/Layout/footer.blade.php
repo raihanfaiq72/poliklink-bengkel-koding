@@ -52,6 +52,41 @@
     <script src="https://adminlte.io/themes/v3/dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="https://adminlte.io/themes/v3/dist/js/pages/dashboard.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (session('alert'))
+    <script>
+        Swal.fire({
+            icon: '{{ session('alert.type') }}',
+            title: '{{ session('alert.title') }}',
+            text: '{{ session('alert.text') }}',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    </script>
+    <script>
+    function confirmDelete(deleteUrl) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to delete URL
+                window.location.href = deleteUrl;
+            }
+        });
+    }
+</script>
+@endif
 </body>
 
 </html>

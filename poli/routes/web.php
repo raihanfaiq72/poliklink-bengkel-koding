@@ -19,8 +19,6 @@ Route::controller(PasienWell::class)->group(function(){
 Route::controller(AdminWell::class)->group(function(){ 
     Route::get('admin/login','login')->name('login.admin');
     Route::post('admin/login','login_proses')->name('login.proses.admin');
-    Route::get('admin/register','register')->name('register.admin');
-    Route::post('admin/register','register_proses')->name('register.proses.admin');
     Route::get('admin/logout','logout')->name('logout.admin');
 
     Route::middleware(['admin','login'])->group(function(){
