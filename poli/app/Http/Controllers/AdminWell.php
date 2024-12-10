@@ -21,6 +21,12 @@ class AdminWell extends Controller
         return view($this->views."Auth.login");
     }
 
+    public function logout()
+    {
+        session()->forget(['role','isLogin']);
+        return redirect()->route('login.admin')->with('success','Berhasil Logout');
+    }
+
     public function login_proses(Request $request)
     {
         $anonim = $request->validate([
@@ -151,9 +157,10 @@ class AdminWell extends Controller
     {
         $data = $request->validate([
             'nama_dokter'      => 'required',
-            'alamat'    => 'required',
-            'no_hp'     => 'required',
-            'id_poli'   => 'required',
+            'alamat'           => 'required',
+            'no_hp'            => 'required',
+            'id_poli'          => 'required',
+            'username'         => 'required'
         ],[
             'nama_dokter.required'  => 'nama dokter dokter harus diisi',
             'almat.required'    => 'alamat dokter harus diisi',
@@ -165,6 +172,7 @@ class AdminWell extends Controller
             $password = Str::random(6);
             Dokter::create([
                 'nama_dokter'      => $request->nama_dokter,
+                'username'         => $request->username,
                 'alamat'           => $request->alamat,
                 'no_hp'            => $request->no_hp,
                 'id_poli'          => $request->id_poli,

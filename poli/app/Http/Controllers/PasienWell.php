@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pasien;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -43,14 +44,24 @@ class PasienWell extends Controller
         return redirect()->route('pasien.dashboard')->with('success','Berhasil Login');
     }
 
+    private function semesta()
+    {
+        $hariini        = Carbon::today();
+        $pasien_hariini = Pasien::whereDate('created_at', $hariini)->count();
+        $urutan_pasien  = $pasien_hariini + 1;
+
+        return $urutan_pasien;
+    }
+
     public function register()
     {
-        return view($this->views."Auth.register");
+        return view($this->views."Auth.register",[
+            'urutan'    => $this->semesta()
+        ]);
     }
 
     public function register_proses(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'nama'      => 'required',
             'username'  => 'required',
@@ -58,7 +69,6 @@ class PasienWell extends Controller
             'no_ktp'    => 'required',
             'no_rm'     => 'required',
             'password'  => 'required',
-            'katasandi' => 'required',
         ]);
     
         $data = [
@@ -79,12 +89,22 @@ class PasienWell extends Controller
 
     public function logout()
     {
-        session()->flush();
-        return redirect('/');
+        session()->forget(['role','isLogin']);
+        return redirect()->route('login.pasien')->with('success','Berhasil Logout');
     }
 
     public function dashboard()
     {
         return view($this->views."Dashboard.index");
+    }
+
+    public function poli()
+    {
+
+    }
+
+    public function poli_daftar(Request $request)
+    {
+        
     }
 }

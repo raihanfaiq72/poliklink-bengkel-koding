@@ -73,7 +73,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('logout')}}" class="nav-link">
+                            <a href="{{route('logout.admin')}}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Logout
@@ -125,6 +125,16 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
+
+                        <li class="nav-item">
+                            <a href="{{route('dokter.jadwal-periksa')}}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Jadwal Periksa
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a href="{{route('logout')}}" class="nav-link">
@@ -179,6 +189,15 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
+
+                        <li class="nav-item">
+                            <a href="{{route('pasien.poli.daftar')}}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Poli
+                                </p>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a href="{{route('logout')}}" class="nav-link">

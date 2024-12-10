@@ -60,7 +60,8 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="no_rm" name="no_rm">
+          <input type="hidden" class="form-control" value="{{$urutan}}" name="no_rm">
+          <input type="text" class="form-control" value="Urutan : {{$urutan}}" disabled>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminWell;
+use App\Http\Controllers\DokterWell;
 use App\Http\Controllers\PasienWell;
 use Illuminate\Support\Facades\Route;
 
@@ -13,16 +14,33 @@ Route::controller(PasienWell::class)->group(function(){
 
     Route::middleware(['pasien','login'])->group(function(){
         Route::get('pasien/dashboard','dashboard')->name('pasien.dashboard');
+        Route::get('pasien/poli','poli')->name('pasien.poli');
+        Route::post('pasien/poli','poli_daftar')->name('pasien.poli.daftar');
+    });
+});
+
+Route::controller(DokterWell::class)->group(function(){
+    Route::get('dokter/login','login')->name('login.dokter');
+    Route::post('dokter/login','login_proses')->name('login.proses.dokter');
+
+    Route::middleware(['dokter','login'])->group(function(){
+        Route::get('dokter/dashboard','dashboard')->name('dokter.dashboard');
+        
+        Route::get('dokter/jadwal-periksa','jadwal_periksa')->name('dokter.jadwal-periksa');
+        Route::post('dokter/jadwal-periksa','jadwal_periksa_post')->name('dokter.jadwal-periksa.post');
+        Route::get('dokter/jadwal-periksa/{id}/edit','jadwal_periksa_edit')->name('dokter.jadwal-periksa.edit');
+        Route::put('dokter/jadwal-periksa/{id}','jadwal_periksa_update')->name('dokter.jadwal-periksa.update');
+        Route::post('dokter/jadwal-periksa/{id}/delete','jadwal_periksa_delete')->name('dokter.jadwal-periksa.delete');
     });
 });
 
 Route::controller(AdminWell::class)->group(function(){ 
     Route::get('admin/login','login')->name('login.admin');
     Route::post('admin/login','login_proses')->name('login.proses.admin');
-    Route::get('admin/logout','logout')->name('logout.admin');
 
     Route::middleware(['admin','login'])->group(function(){
         Route::get('admin/dashboard','dashboard')->name('dashboard');
+        Route::get('admin/logout','logout')->name('logout.admin');
         
         Route::get('admin/poli','poli')->name('poli');
         Route::post('admin/poli','poli_post')->name('poli-post');
@@ -49,3 +67,4 @@ Route::controller(AdminWell::class)->group(function(){
         Route::post('admin/pasien/{id}/delete','pasien_delete')->name('pasien-delete');
     });
 });
+ 
