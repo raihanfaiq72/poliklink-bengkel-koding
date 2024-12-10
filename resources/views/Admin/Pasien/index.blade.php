@@ -49,8 +49,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="no_rm">No Rm</label>
-                                        <input type="text" name="no_rm" class="form-control"
-                                            placeholder="no_rm">
+                                        <input type="hidden" name="no_rm" value="{{$urutan}}" >
+                                        <input type="text" name="no_rm" class="form-control" value="{{$urutan}}" disabled>
                                     </div>
                                 </div>
                                 <!-- /.card-body -->

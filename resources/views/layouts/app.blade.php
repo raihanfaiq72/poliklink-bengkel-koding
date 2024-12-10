@@ -135,8 +135,8 @@
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="https://adminlte.io/themes/v3/dist/img/AdminLTELogo.png"
-                alt="AdminLTELogo" height="60" width="60">
+            <img class="animation__shake" src="{{url('')}}/hehehe.png"
+                alt="AdminLTELogo" height="110" width="110">  
         </div>
 
         <!-- Navbar -->
@@ -289,7 +289,7 @@
             <a href="index3.html" class="brand-link">
                 <img src="https://adminlte.io/themes/v3/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">Admin</span>
             </a>
 
             <!-- Sidebar -->
@@ -301,7 +301,7 @@
                             class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">{{ Auth::user()->name}}</a>
                     </div>
                 </div>
 

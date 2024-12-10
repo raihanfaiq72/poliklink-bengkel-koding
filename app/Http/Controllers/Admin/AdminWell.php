@@ -10,6 +10,7 @@ use App\Models\Poli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AdminWell extends Controller
 {
@@ -280,8 +281,18 @@ class AdminWell extends Controller
     public function pasien()
     {
         return view($this->views."Pasien.index",[
-            'pasien'    => Pasien::get()
+            'pasien'    => Pasien::get(),
+            'urutan'    => $this->semesta()
         ]);
+    }
+
+    private function semesta()
+    {
+        $hariini        = Carbon::today();
+        $pasien_hariini = Pasien::whereDate('created_at', $hariini)->count();
+        $urutan_pasien  = $pasien_hariini + 1;
+
+        return $urutan_pasien;
     }
 
     public function pasien_post(Request $request)
