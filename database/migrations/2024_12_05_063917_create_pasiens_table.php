@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('no_ktp');
             $table->string('no_rm');
+            $table->string('password');
+            $table->string('katasandi');
             $table->timestamps();
         });
     }
