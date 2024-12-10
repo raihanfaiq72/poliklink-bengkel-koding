@@ -33,6 +33,7 @@ class DokterWell extends Controller
         }
 
         $session = [
+            'id'            => $anonim->id,
             'nama_dokter'   => $anonim->nama_dokter,
             'role'          => $anonim->role,
             'alamat'        => $anonim->alamat,
@@ -57,6 +58,40 @@ class DokterWell extends Controller
     
         return view($this->views . "Jadwalperiksa.index", [
             'jadwal' => $jadwal
+        ]);
+    }
+
+    public function jadwal_periksa_post(Request $request)
+    {
+        $data = $request->validate([
+            'id_dokter'     => 'required',
+            'hari'          => 'required',
+            'jam_mulai'     => 'required',
+            'jam_selesai'   => 'required'
+        ]);
+
+        try{
+            $data['status'] = 1;
+            JadwalPeriksa::create($data);
+
+            return redirect()->back()->with('alert',[
+                'type'      => 'success',
+                'title'     => 'Berhasil',
+                'message'   => 'Berhasil menambahkan jadwal'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with('alert',[
+                'type'      => 'error',
+                'title'     => 'Gagal',
+                'message'   => 'Gagal menambahkan jadwal'
+            ]);
+        }
+    }
+
+    public function jadwal_periksa_edit($id)
+    {
+        return view($this->views."Jadwalperiksa.edit",[
+            'jadwal'    => JadwalPeriksa::where('id',$id)->first()
         ]);
     }
     

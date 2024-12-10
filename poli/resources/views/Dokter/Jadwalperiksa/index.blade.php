@@ -57,10 +57,17 @@
                                     <tr>
 
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$polri->nama_dokter}}</td>
+                                        <td>{{$polri->dokter->nama_dokter}}</td>
                                         <td>{{$polri->hari}}</td>
                                         <td>{{$polri->jam_mulai}}</td>
                                         <td>{{$polri->jam_selesai}}</td>
+                                        <td>
+                                            @if($polri->status == 1)
+                                                Aktif
+                                            @elseif($polri->status == 2)
+                                                Tidak Aktif
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="d-flex justify-content">
                                                 <a href="{{ url('admin/dokter/' . $polri->id) }}" class="btn btn-primary">Edit</a>
@@ -100,12 +107,13 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="#" method="POST">
+            <form action="{{route('dokter.jadwal-periksa.post')}}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="namaDokter">Nama Dokter</label>
-                        <input type="text" name="nama_dokter" class="form-control" id="namaDokter" placeholder="Masukkan nama dokter" required>
+                        <input type="hidden" name="id_dokter" value="{{session()->get('id')}}">
+                        <input type="text"  class="form-control" value="{{session()->get('nama_dokter')}}" disabled>
                     </div>
                     <div class="form-group">
                         <label for="hari">Hari</label>
