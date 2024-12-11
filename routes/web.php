@@ -15,7 +15,9 @@ Route::controller(PasienWell::class)->group(function(){
     Route::middleware(['pasien','login'])->group(function(){
         Route::get('pasien/dashboard','dashboard')->name('pasien.dashboard');
         Route::get('pasien/poli','poli')->name('pasien.poli');
-        Route::post('pasien/poli','poli_daftar')->name('pasien.poli.daftar');
+        Route::get('pasien/poli/{id}','poli_id_poli')->name('pasien.poli.get_poli');
+        // Route::get('pasien/poli/{id}/')
+        Route::get('pasien/riwayat-poli','riwayat_poli')->name('pasien.poli.riwayat');
     });
 });
 

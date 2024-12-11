@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DaftarPoli;
+use App\Models\Dokter;
+use App\Models\JadwalPeriksa;
 use App\Models\Pasien;
+use App\Models\Poli;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -100,11 +104,35 @@ class PasienWell extends Controller
 
     public function poli()
     {
-
+        return view($this->views."Poli.index",[
+            'poli'      => Poli::get(),
+        ]);
     }
+
+    public function poli_id_poli($id)
+    {
+        $poli       = Poli::where('id', $id)->first();
+        $dokters    = Dokter::where('id_poli', $poli->id)->get();
+        $jadwals    = JadwalPeriksa::with('dokter')->whereIn('id_dokter', $dokters->pluck('id'))->get();
+
+        return view($this->views . "Poli.show", [
+            'jadwals'   => $jadwals,
+            'poli'      => $poli,
+        ]);
+    }
+
+    public function riwayat_poli()
+    {
+        return view($this->views."Poli.riwayat",[
+            'riwayat'   => DaftarPoli::get()
+        ]);
+    }
+
+    
 
     public function poli_daftar(Request $request)
     {
-        
+        return view($this->views."Poli.index");
     }
+
 }

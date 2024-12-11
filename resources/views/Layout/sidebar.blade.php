@@ -224,10 +224,19 @@
                         data-accordion="false">
 
                         <li class="nav-item">
-                            <a href="{{route('pasien.poli.daftar')}}" class="nav-link">
+                            <a href="{{route('pasien.poli')}}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Poli
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('pasien.poli.riwayat')}}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Riwayat Poli
                                 </p>
                             </a>
                         </li>
