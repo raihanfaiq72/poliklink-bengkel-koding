@@ -134,5 +134,67 @@ class DokterWell extends Controller
             'message'   => 'Data Berhasil Dihapus'
         ]);
     }
-    
+
+    public function periksa_pasien_index()
+    {
+        return view($this->views . 'Periksapasien.index');
+    }
+
+    public function periksa_pasien_edit(Request $request)
+    {
+        return view($this->views . 'Periksapasien.edit');
+    }
+
+    public function periksa_pasien_periksa(Request $request)
+    {
+        return view($this->views . 'Periksapasien.periksa');
+    }
+
+    public function riwayat_pasien()
+    {
+        return view($this->views . 'Riwayatpasien.index');
+    }
+
+    public function profile()
+    {
+        return view($this->views . 'Profile.index');
+    }
+
+    public function profile_update(Request $request)
+    {
+        // dd($request->id);
+
+        $data = [
+            'nama_dokter'   => $request->nama_dokter,
+            'alamat'        => $request->alamat,
+            'no_hp'         => $request->no_hp,
+        ];
+
+        try{
+            $dokter = Dokter::where('id',$request->id)->first();
+            $dokter->update($data);
+
+            // Update session cuy
+            $session = [
+                'nama_dokter'   => $request->nama_dokter,
+                'alamat'        => $request->alamat,
+                'no_hp'         => $request->no_hp,
+            ];
+            
+            session($session);
+
+            return redirect()->route('dokter.profile')->with('alert',[
+                'type'      => 'success',
+                'title'     => 'Berhasil',
+                'message'   => 'Profile Dokter Berhasil Diupdate'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with('alert',[
+                'type'      => 'error',
+                'title'     => 'Gagal',
+                'message'   => 'Profile Dokter Gagal Diupdate'
+            ]);
+        }
+        return view($this->views . 'Profile.index');
+    }
 }

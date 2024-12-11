@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('no_hp');
             $table->integer('id_poli');
+            $table->string('username');
             $table->string('katasandi');
             $table->string('password');
             $table->string('role');

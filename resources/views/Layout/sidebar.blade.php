@@ -137,6 +137,39 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="
+                                {{route('dokter.periksa-pasien')}}" 
+                                class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Periksa Pasien
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="{{route('dokter.riwayat-pasien')}}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Riwayat Pasien
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('dokter.profile')}}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Profile
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{route('logout')}}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>

@@ -32,8 +32,16 @@ Route::controller(DokterWell::class)->group(function(){
         Route::put('dokter/jadwal-periksa/{id}','jadwal_periksa_update')->name('dokter.jadwal-periksa.update');
         Route::post('dokter/jadwal-periksa/{id}/delete','jadwal_periksa_delete')->name('dokter.jadwal-periksa.delete');
 
+        Route::get('dokter/periksa-pasien','periksa_pasien_index')->name('dokter.periksa-pasien');
+        Route::get('dokter/periksa-pasien/{id}/edit','periksa_pasien_edit')->name('dokter.periksa-pasien.edit');
+        Route::put('dokter/periksa-pasien/{id}','periksa_pasien_update')->name('dokter.periksa-pasien.update');
+        Route::get('dokter/periksa-pasien/periksa/{id}','periksa_pasien_periksa')->name('dokter.periksa-pasien.periksa');
+        Route::put('dokter/periksa-pasien/periksa/{id}','periksa_pasien_periksa_update')->name('dokter.periksa-pasien.periksa-update');
+
+        Route::get('dokter/riwayat-pasien','riwayat_pasien')->name('dokter.riwayat-pasien');
+
         Route::get('dokter/profile','profile')->name('dokter.profile');
-        Route::put('dokter/profile/{id}','profile_update')->name('dokter.profile.update');
+        Route::post('dokter/profile','profile_update')->name('dokter.profile.update');
     });
 });
 
