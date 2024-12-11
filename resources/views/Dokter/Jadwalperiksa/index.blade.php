@@ -70,10 +70,10 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content">
-                                                <a href="{{ url('admin/dokter/' . $polri->id) }}" class="btn btn-primary">Edit</a>
-                                                <form action="{{ url('admin/dokter/' . $polri->id) }}/delete" method="POST" style="margin-left: 10px;">
+                                                <a href="{{ url('dokter/jadwal-periksa/' . $polri->id) }}/edit" class="btn btn-primary">Edit</a>
+                                                <form action="{{ url('dokter/jadwal-periksa/' . $polri->id) }}/delete" method="POST" style="margin-left: 10px;">
                                                     @csrf
-                                                    <button class="btn btn-danger" onclick="confirmDelete('{{ url('admin/dokter/' . $polri->id) }}/delete')">Hapus</button>                                                    </form>
+                                                    <button class="btn btn-danger" onclick="confirmDelete('{{ url('dokter/jadwal-periksa/' . $polri->id) }}/delete')">Hapus</button>                                                    </form>
                                             </div>
                                         </td>
                                     </tr>

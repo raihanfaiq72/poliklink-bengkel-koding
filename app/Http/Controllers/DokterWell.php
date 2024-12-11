@@ -94,5 +94,45 @@ class DokterWell extends Controller
             'jadwal'    => JadwalPeriksa::where('id',$id)->first()
         ]);
     }
+
+    public function jadwal_periksa_update(Request $request,$id)
+    {
+        $data = $request->validate([
+            'id_dokter'     => 'required',
+            'hari'          => 'required',
+            'jam_selesai'   => 'required',
+            'jam_mulai'     => 'required',
+            'status'        => 'required'
+        ]);
+
+        try{
+            $jadwal = JadwalPeriksa::where('id',$id)->first();
+            $jadwal->update($data);
+
+            return redirect()->route('dokter.jadwal-periksa')->with('alert',[
+                'type'      => 'success',
+                'title'     => 'Berhasil',
+                'message'   => 'Jadwal Berhasil Diupdate'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with('alert',[
+                'type'      => 'error',
+                'title'     => 'Gagal',
+                'message'   => 'Jadwal Gagal Diupdate'
+            ]);
+        }
+    }
+
+    public function jadwal_periksa_delete($id)
+    {
+        $jadwal = JadwalPeriksa::where('id',$id)->first();
+        $jadwal->delete();
+
+        return redirect()->back()->with('alert',[
+            'type'      => 'success',
+            'title'     => 'Berhasil',
+            'message'   => 'Data Berhasil Dihapus'
+        ]);
+    }
     
 }

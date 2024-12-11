@@ -31,6 +31,9 @@ Route::controller(DokterWell::class)->group(function(){
         Route::get('dokter/jadwal-periksa/{id}/edit','jadwal_periksa_edit')->name('dokter.jadwal-periksa.edit');
         Route::put('dokter/jadwal-periksa/{id}','jadwal_periksa_update')->name('dokter.jadwal-periksa.update');
         Route::post('dokter/jadwal-periksa/{id}/delete','jadwal_periksa_delete')->name('dokter.jadwal-periksa.delete');
+
+        Route::get('dokter/profile','profile')->name('dokter.profile');
+        Route::put('dokter/profile/{id}','profile_update')->name('dokter.profile.update');
     });
 });
 
