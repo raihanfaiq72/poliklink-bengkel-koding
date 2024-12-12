@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DaftarPoli;
+use App\Models\DetailPeriksa;
 use App\Models\Dokter;
 use App\Models\JadwalPeriksa;
 use App\Models\Pasien;
@@ -36,6 +37,7 @@ class PasienWell extends Controller
         }
 
         $session = [
+            'id'        => $anonim->id,
             'nama'      => $anonim->nama,
             'role'      => $anonim->role,
             'alamat'    => $anonim->alamat,
@@ -118,13 +120,21 @@ class PasienWell extends Controller
         return view($this->views . "Poli.show", [
             'jadwals'   => $jadwals,
             'poli'      => $poli,
+            'pasien'    => session()->get('no_rm'),
+            'pasien_id' => session()->get('id')
         ]);
     }
 
     public function riwayat_poli()
     {
+        $riwayat = JadwalPeriksa::join('dokters', 'jadwal_periksas.id_dokter', '=', 'dokters.id')->join('polis', 'dokters.id_poli', '=', 'polis.id')->select('jadwal_periksas.hari','jadwal_periksas.jam_mulai','jadwal_periksas.jam_selesai','dokters.nama_dokter','dokters.alamat','polis.nama_poli')->get();
+        $session = session()->get('id');
+        $antrian = Pasien::where('id',$session)->get();
+        $detail  = DaftarPoli::where('id_pasien',$session)->get();
         return view($this->views."Poli.riwayat",[
-            'riwayat'   => DaftarPoli::get()
+            'riwayat'   => $riwayat,
+            'pasien'    => $antrian,
+            'detail'    => $detail
         ]);
     }
 
@@ -132,7 +142,28 @@ class PasienWell extends Controller
 
     public function poli_daftar(Request $request)
     {
-        return view($this->views."Poli.index");
+        $data = $request->validate([
+            'id_pasien'     => 'required',
+            'id_jadwal'     => 'required',
+            'keluhan'       => 'required',
+            'no_antrian'    => 'required'
+        ]);
+
+        try{
+            DaftarPoli::create($data);
+
+            return redirect()->route('pasien.poli.riwayat')->with('alert',[
+                'type'     => 'success',
+                'title'     => 'Berhasil',
+                'message'   => 'Berhasil Mendaftar'
+            ]);
+        }catch(\Exception $e){
+            return redirect()->back()->with('alert',[
+                'type'     => 'error',
+                'title'     => 'Gagal',
+                'message'   => 'Gagal Mendaftar'
+            ]);
+        }
     }
 
 }

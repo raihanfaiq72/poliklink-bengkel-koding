@@ -32,19 +32,20 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{route('dokter-post')}}" method="POST">
+                        <form action="{{route('pasien.poli.daftar')}}" method="POST">
                             @csrf
+                            <input type="hidden" name="id_pasien" value="{{$pasien_id}}">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="namapoli">Nama Poli</label>
-                                    <input type="text" name="username" class="form-control "
+                                    <input type="text" class="form-control "
                                         value="{{$poli->nama_poli}}" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="namapoli">Nama Jadwal | Dokter</label>
-                                    <select name="" id="" class="form-control">
+                                    <select name="id_jadwal" id="" class="form-control">
                                         @foreach($jadwals as $p)
-                                        <option value="">{{$p->dokter->nama_dokter}} | {{$p->hari}} | {{$p->jam_mulai}}
+                                        <option value="{{$p->id}}">{{$p->dokter->nama_dokter}} | {{$p->hari}} | {{$p->jam_mulai}}
                                             | {{$p->selesai}}</option>
                                         @endforeach
                                     </select>
@@ -52,7 +53,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="namapoli">Keluhan</label>
-                                    <textarea name="" class="form-control" id="" cols="10" rows="2"></textarea>
+                                    <textarea name="keluhan" class="form-control" id="" cols="10" rows="2"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="namapoli">Nomor Antrian</label>
+                                    <input type="hidden" name="no_antrian" value="{{$pasien}}">
+                                    <input type="text" class="form-control "
+                                        value="{{$pasien}}" disabled>
                                 </div>
                             </div>
                             <!-- /.card-body -->

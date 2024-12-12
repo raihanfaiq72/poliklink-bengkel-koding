@@ -16,8 +16,9 @@ Route::controller(PasienWell::class)->group(function(){
         Route::get('pasien/dashboard','dashboard')->name('pasien.dashboard');
         Route::get('pasien/poli','poli')->name('pasien.poli');
         Route::get('pasien/poli/{id}','poli_id_poli')->name('pasien.poli.get_poli');
-        // Route::get('pasien/poli/{id}/')
         Route::get('pasien/riwayat-poli','riwayat_poli')->name('pasien.poli.riwayat');
+        Route::post('pasien/poli/daftar','poli_daftar')->name('pasien.poli.daftar');
+        Route::get('pasien/riwayat-poli/{id}','riwayat_poli_detail')->name('pasien.poli.riwayat.detail');
     });
 });
 
