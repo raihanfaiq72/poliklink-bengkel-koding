@@ -32,38 +32,25 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{route('dokter.jadwal-periksa.update',$jadwal->id)}}" method="POST">
+                        <form action="" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="namapoli">Nama Dokter</label>
-                                    <input type="hidden" name="id_dokter" class="form-control " value="{{$jadwal->dokter->id}}">
-                                    <input type="text" class="form-control " value="{{$jadwal->dokter->nama_dokter}}" disabled>
+                                    <label for="namapoli">Nama Pasien</label>
+                                    <input type="text" class="form-control " value="{{$periksa->pasien->nama}}" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label for="alamat">Hari</label>
-                                    <input type="text" name="hari" class="form-control"
-                                        value="{{$jadwal->hari}}">
+                                    <label for="namapoli">Tanggal Periksa</label>
+                                    <input type="text" class="form-control " value="{{$periksa->pasien->nama}}" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label for="no_ktp">Jam Mulai</label>
-                                    <input type="time" name="jam_mulai" class="form-control"
-                                        value="{{$jadwal->jam_mulai}}">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="no_rm">Jam Selesai</label>
-                                    <input type="text" name="jam_selesai" class="form-control"
-                                        value="{{$jadwal->jam_selesai}}">
+                                    <label for="namapoli">Catatan</label>
+                                    <input type="text" class="form-control " value="{{$periksa->pasien->nama}}" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label for="no_rm">Status</label>
-                                    <select name="status" class="form-control" id="">
-                                        <option value="">== SILAHKAN PILIH ==</option>
-                                        <option value="1">Aktif</option>
-                                        <option value="2">Tidak Aktif</option>
-                                    </select>
+                                    <label for="namapoli">Biaya</label>
+                                    <input type="text" class="form-control " value="{{$periksa->pasien->nama}}" disabled>
                                 </div>
                             </div>
                             <!-- /.card-body -->

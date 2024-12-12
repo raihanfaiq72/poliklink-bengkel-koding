@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DaftarPoli;
 use App\Models\Dokter;
 use App\Models\JadwalPeriksa;
+use App\Models\Periksa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -137,12 +139,24 @@ class DokterWell extends Controller
 
     public function periksa_pasien_index()
     {
-        return view($this->views . 'Periksapasien.index');
+        $dokter         = session()->get('id');
+        $jadwal_periksa = JadwalPeriksa::where('id_dokter',$dokter)->first();
+        $pasien_periksa = DaftarPoli::where('id_jadwal',$jadwal_periksa->id)->get();
+        $ambil_last     = DaftarPoli::where('id_jadwal',$jadwal_periksa->id)->latest();
+        // $kondisi        = Periksa::where('id_daftar_poli',$ambil_last->id)->get();
+
+        return view($this->views . 'Periksapasien.index',[
+            'pasien_periksa'    => $pasien_periksa,
+            // 'periksa'           => $periksa
+        ]);
     }
 
-    public function periksa_pasien_edit(Request $request)
+    public function periksa_pasien_edit(Request $request,$id)
     {
-        return view($this->views . 'Periksapasien.edit');
+        $periksa = DaftarPoli::where('id',$id)->first();
+        return view($this->views . 'Periksapasien.edit',[
+            'periksa'  => $periksa
+        ]);
     }
 
     public function periksa_pasien_periksa(Request $request)

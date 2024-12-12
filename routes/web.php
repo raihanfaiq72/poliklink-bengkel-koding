@@ -42,7 +42,7 @@ Route::controller(DokterWell::class)->group(function(){
         Route::put('dokter/periksa-pasien/periksa/{id}','periksa_pasien_periksa_update')->name('dokter.periksa-pasien.periksa-update');
 
         Route::get('dokter/riwayat-pasien','riwayat_pasien')->name('dokter.riwayat-pasien');
-
+ 
         Route::get('dokter/profile','profile')->name('dokter.profile');
         Route::post('dokter/profile','profile_update')->name('dokter.profile.update');
     });
