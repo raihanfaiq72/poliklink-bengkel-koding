@@ -7,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Validation</h1>
+                    <h1>Daftar Pasien yang Akan Diperiksa</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Validation</li>
+                        <li class="breadcrumb-item active">Daftar Pasien</li>
                     </ol>
                 </div>
             </div>
@@ -26,18 +26,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Periksa Pasien</h3>
-
-                            <div class="card-tools">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-
-                                    {{-- <div class="input-group-append">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalTambahJadwal">
-                                            <i class="fas fa-plus"></i> Tambah Jadwal
-                                        </button>                                        
-                                    </div> --}}
-                                </div>
-                            </div>
+                            <h3 class="card-title">Daftar Pasien yang Akan Diperiksa</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0" style="height: 300px;">
@@ -51,13 +40,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
                                     @forelse ($pasien_periksa as $polri)
-                                   
                                     <tr>
-
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$polri->pasien->nama ?? 'kosong'}}</td>
+                                        <td>{{$polri->pasien->nama ?? 'Kosong'}}</td>
                                         <td>{{$polri->keluhan}}</td>
                                         <td>
                                             <a href="{{ url('dokter/periksa-pasien/' . $polri->id) }}/edit" class="btn btn-primary">Periksa</a>
@@ -65,10 +51,9 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td>Kosong</td>
+                                        <td colspan="4">Tidak ada pasien yang terdaftar untuk diperiksa.</td>
                                     </tr>
                                     @endforelse
-                                
                                 </tbody>
                             </table>
                         </div>
@@ -77,59 +62,8 @@
                     <!-- /.card -->
                 </div>
             </div>
-            <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 </div>
-
-<!-- Modal Tambah Jadwal -->
-{{-- <div class="modal fade" id="modalTambahJadwal" tabindex="-1" aria-labelledby="modalTambahJadwalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTambahJadwalLabel">Tambah Jadwal</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{route('dokter.jadwal-periksa.post')}}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="namaDokter">Nama Dokter</label>
-                        <input type="hidden" name="id_dokter" value="{{session()->get('id')}}">
-                        <input type="text"  class="form-control" value="{{session()->get('nama_dokter')}}" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="hari">Hari</label>
-                        <select name="hari" id="hari" class="form-control" required>
-                            <option value="">Pilih Hari</option>
-                            <option value="Senin">Senin</option>
-                            <option value="Selasa">Selasa</option>
-                            <option value="Rabu">Rabu</option>
-                            <option value="Kamis">Kamis</option>
-                            <option value="Jumat">Jumat</option>
-                            <option value="Sabtu">Sabtu</option>
-                            <option value="Minggu">Minggu</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="jamMulai">Jam Mulai</label>
-                        <input type="time" name="jam_mulai" class="form-control" id="jamMulai" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="jamSelesai">Jam Selesai</label>
-                        <input type="time" name="jam_selesai" class="form-control" id="jamSelesai" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
-
 @endsection

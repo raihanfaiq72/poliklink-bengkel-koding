@@ -154,9 +154,6 @@ class PasienWell extends Controller
         ]);
     }
     
-    
-    
-
     public function poli_daftar(Request $request)
     {
         // dd($request->all());
@@ -171,7 +168,7 @@ class PasienWell extends Controller
             DaftarPoli::create($data);
 
             return redirect()->route('pasien.poli.riwayat')->with('alert',[
-                'type'     => 'success',
+                'type'      => 'success',
                 'title'     => 'Berhasil',
                 'message'   => 'Berhasil Mendaftar'
             ]);
@@ -182,6 +179,31 @@ class PasienWell extends Controller
                 'message'   => 'Gagal Mendaftar'
             ]);
         }
+    }
+
+    public function riwayat_poli_detail($id)
+    {
+        $daftarpoli = DaftarPoli::where('id', $id)->first();
+        if (!$daftarpoli) {
+            return redirect()->route('pasien.riwayat-poli')->with('alert', [
+                'type'      => 'error',
+                'title'     => 'Gagal',
+                'message'   => 'Data tidak ditemukan.'
+            ]);
+        }
+        $periksa    = Periksa::where('id_daftar_poli', $id)->first();
+        $status     = $periksa ? 'Sudah Diperiksa' : 'Belum Diperiksa';
+        $jadwal     = $daftarpoli->jadwalPeriksa;
+        $dokter     = $jadwal ? $jadwal->dokter : null;
+        $poli       = $jadwal ? $jadwal->poli : null;
+        return view($this->views . "Poli.riwayat-detail", [
+            'daftarpoli'    => $daftarpoli,
+            'periksa'       => $periksa,
+            'status'        => $status,
+            'dokter'        => $dokter,
+            'poli'          => $poli,
+            'jadwal'        => $jadwal
+        ]);
     }
 
 }
