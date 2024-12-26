@@ -20,7 +20,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="https://adminlte.io/themes/v3/index2.html" class="h1"><b>Admin</b>LTE</a>
+      <a href="#" class="h1"><b>PASIEN</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Daftar</p>
@@ -88,10 +88,14 @@
           <!-- /.col -->
           <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block">Daftar</button>
+          </div><br><br>
+          <div class="col-12">
+            <a href="{{url('login')}}"><button type="button" class="btn btn-success btn-block">Sudah Punya akun?</button></a>
           </div>
           <!-- /.col -->
         </div>
       </form>
+      
 
     </div>
     <!-- /.card-body -->

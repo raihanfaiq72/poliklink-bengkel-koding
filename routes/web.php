@@ -5,8 +5,10 @@ use App\Http\Controllers\DokterWell;
 use App\Http\Controllers\PasienWell;
 use Illuminate\Support\Facades\Route;
 
+Route::view('/','welcome');
+
 Route::controller(PasienWell::class)->group(function(){
-    Route::get('/','login')->name('login.pasien');
+    Route::get('/login','login')->name('login.pasien');
     Route::post('login','login_proses')->name('login.proses.pasien');
     Route::get('register','register')->name('register.pasien');
     Route::post('register','register_proses')->name('register.proses.pasien');
@@ -25,6 +27,7 @@ Route::controller(PasienWell::class)->group(function(){
 Route::controller(DokterWell::class)->group(function(){
     Route::get('dokter/login','login')->name('login.dokter');
     Route::post('dokter/login','login_proses')->name('login.proses.dokter');
+    Route::get('dokter/logout','logout')->name('logout.dokter');
 
     Route::middleware(['dokter','login'])->group(function(){
         Route::get('dokter/dashboard','dashboard')->name('dokter.dashboard');

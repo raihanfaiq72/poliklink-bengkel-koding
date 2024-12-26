@@ -18,6 +18,12 @@ class DokterWell extends Controller
         return view($this->views."Auth.login");
     }
 
+    public function logout()
+    {
+        session()->forget(['role','isLogin']);
+        return redirect('/')->with('success','Berhasil Logout');
+    }
+
     public function login_proses(Request $request)
     {
         $request->validate([

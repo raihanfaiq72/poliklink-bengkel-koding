@@ -7,12 +7,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Validation</h1>
+                    <h1>Riwayat Pemeriksaan</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Validation</li>
+                        <li class="breadcrumb-item active">Riwayat Pemeriksaan</li>
                     </ol>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Dokter</h3>
+                            <h3 class="card-title">Daftar Riwayat Pemeriksaan Poli</h3>
 
                             <div class="card-tools">
                                 <div class="input-group input-group-sm" style="width: 150px;">
@@ -58,33 +58,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($riwayat as $polri)
+                                    @forelse ($daftar_poli as $polri)
                                     <tr>
+                                        <td>{{ $loop->iteration }}</td>
 
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$polri->nama_poli}}</td>
-                                        <td>{{$polri->nama_dokter}}</td>
-                                        <td>{{$polri->hari}}</td>
-                                        <td>{{$polri->jam_mulai}}</td>
-                                        <td>{{$polri->jam_selesai}}</td>
-                                        @foreach($pasien as $p)
-                                            <td>{{$p->no_rm}}</td>
-                                        @endforeach
-                                        <td>{{$polri->status ?? 'not set'}}</td>
+                                        <!-- Nama Poli -->
+                                        <td>{{ $polri->jadwalPeriksa->poli ? $polri->jadwalPeriksa->poli->nama_poli : 'Data Tidak Tersedia' }}</td>
+
+                                        <!-- Nama Dokter -->
+                                        <td>{{ $polri->jadwalPeriksa->dokter ? $polri->jadwalPeriksa->dokter->nama_dokter : 'Data Tidak Tersedia' }}</td>
+                                        
+                                        <td>{{ $polri->jadwalPeriksa->hari ?? 'Tidak Tersedia' }}</td>
+                                        <td>{{ $polri->jadwalPeriksa->jam_mulai ?? 'Tidak Tersedia' }}</td>
+                                        <td>{{ $polri->jadwalPeriksa->jam_selesai ?? 'Tidak Tersedia' }}</td>
+                                        <td>{{ $polri->no_antrian }}</td>
+                                        <!-- Status Pemeriksaan -->
+                                        <td>{{ $polri->status_periksa }}</td>
                                         <td>
                                             <div class="d-flex justify-content">
                                                 <a href="{{ url('pasien/riwayat-poli/' . $polri->id) }}" class="btn btn-primary">Detail</a>                                                 
-                                        
                                             </div>
                                         </td>
-                                    </form>
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td>Kosong</td>
+                                        <td colspan="9" class="text-center">Tidak ada riwayat pemeriksaan.</td>
                                     </tr>
                                     @endforelse
-                                
                                 </tbody>
                             </table>
                         </div>

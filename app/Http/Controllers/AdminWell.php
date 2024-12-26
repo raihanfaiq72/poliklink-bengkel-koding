@@ -340,6 +340,8 @@ class AdminWell extends Controller
         $hariini        = Carbon::today();
         $pasien_hariini = Pasien::whereDate('created_at', $hariini)->count();
         $urutan_pasien  = $pasien_hariini + 1;
+        $tahun_bulan    = $hariini->format('Ym');
+        $urutan_pasien  = $tahun_bulan . '-' . str_pad($urutan_pasien, 2, '0', STR_PAD_LEFT);
 
         return $urutan_pasien;
     }

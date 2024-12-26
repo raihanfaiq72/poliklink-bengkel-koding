@@ -7,6 +7,7 @@ use App\Models\DetailPeriksa;
 use App\Models\Dokter;
 use App\Models\JadwalPeriksa;
 use App\Models\Pasien;
+use App\Models\Periksa;
 use App\Models\Poli;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -55,6 +56,8 @@ class PasienWell extends Controller
         $hariini        = Carbon::today();
         $pasien_hariini = Pasien::whereDate('created_at', $hariini)->count();
         $urutan_pasien  = $pasien_hariini + 1;
+        $tahun_bulan    = $hariini->format('Ym');
+        $urutan_pasien  = $tahun_bulan . '-' . str_pad($urutan_pasien, 2, '0', STR_PAD_LEFT);
 
         return $urutan_pasien;
     }
@@ -127,21 +130,36 @@ class PasienWell extends Controller
 
     public function riwayat_poli()
     {
-        $riwayat = JadwalPeriksa::join('dokters', 'jadwal_periksas.id_dokter', '=', 'dokters.id')->join('polis', 'dokters.id_poli', '=', 'polis.id')->select('jadwal_periksas.hari','jadwal_periksas.jam_mulai','jadwal_periksas.jam_selesai','dokters.nama_dokter','dokters.alamat','polis.nama_poli')->get();
         $session = session()->get('id');
-        $antrian = Pasien::where('id',$session)->get();
-        $detail  = DaftarPoli::where('id_pasien',$session)->get();
-        return view($this->views."Poli.riwayat",[
-            'riwayat'   => $riwayat,
-            'pasien'    => $antrian,
-            'detail'    => $detail
+    
+        $daftar_poli = DaftarPoli::where('id_pasien', $session)->get();
+        
+        $periksa = Periksa::all();
+    
+        foreach ($daftar_poli as $daftar) {
+            $pemeriksaan = $periksa->where('id_daftar_poli', $daftar->id)->first();
+    
+            if ($pemeriksaan) {
+                $daftar->status_periksa = 'Sudah Diperiksa';
+            } else {
+                $daftar->status_periksa = 'Belum Diperiksa';
+            }
+        }
+    
+        $pasien = Pasien::where('id', $session)->first();
+    
+        return view($this->views . "Poli.riwayat", [
+            'daftar_poli' => $daftar_poli,
+            'pasien' => $pasien
         ]);
     }
-
+    
+    
     
 
     public function poli_daftar(Request $request)
     {
+        // dd($request->all());
         $data = $request->validate([
             'id_pasien'     => 'required',
             'id_jadwal'     => 'required',

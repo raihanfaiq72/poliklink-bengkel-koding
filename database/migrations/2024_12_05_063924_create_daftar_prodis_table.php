@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('id_pasien');
             $table->integer('id_jadwal');
             $table->string('keluhan');
-            $table->integer('no_antrian');
+            $table->string('no_antrian');
             $table->timestamps();
         });
     }
