@@ -2,7 +2,6 @@
 
 @section('main')
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -17,65 +16,120 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- left column -->
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Detail Pemeriksaan Pasien</h3>
                         </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form action="{{ url('dokter/periksa-pasien/' . $pemeriksaan->id) }}" method="POST">
+
+                        <form action="{{ url('dokter/riwayat-poli/aow' ) }}" method="POST">
                             @csrf
-                            @method('PUT')
+
+                            <input type="hidden" name="id_daftar_poli" value="{{$daftarpoli->id}}">
+
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="nama_pasien">Nama Pasien</label>
-                                    <input type="text" class="form-control" value="{{ $periksa->pasien->nama }}" disabled>
+                                    <input type="text" class="form-control" value="{{$daftarpoli->pasien->nama}}" disabled>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="tanggal_periksa">Tanggal Pemeriksaan</label>
-                                    <input type="text" class="form-control" value="{{ $pemeriksaan->tgl_periksa }}" disabled>
+                                    <input type="date" class="form-control" value="tgl_periksa">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="catatan">Catatan Pemeriksaan</label>
-                                    <textarea name="catatan" class="form-control" rows="3" placeholder="Masukkan catatan pemeriksaan">{{ $pemeriksaan->catatan }}</textarea>
+                                    <textarea name="catatan" class="form-control" rows="3" placeholder="Masukkan catatan pemeriksaan"></textarea>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="biaya_periksa">Biaya Pemeriksaan</label>
-                                    <input type="number" name="biaya_periksa" class="form-control" value="{{ $pemeriksaan->biaya_periksa }}">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="obat">Pilih Obat</label>
-                                    <select name="obat[]" class="form-control select2" multiple="multiple" data-placeholder="Pilih Obat" style="width: 100%;">
-                                        @foreach ($obat as $obat_item)
-                                            <option value="{{ $obat_item->id }}">{{ $obat_item->nama_obat }} - Rp {{ number_format($obat_item->harga, 0, ',', '.') }}</option>
+                                    <label for="obat">Obat</label>
+                                    <select class="form-control" id="obat">
+                                        <option value="" data-harga="0">-- Pilih Obat --</option>
+                                        @foreach($obat as $p)
+                                        <option value="{{ $p->id }}" data-harga="{{ $p->harga }}">{{ $p->nama_obat }} - Rp.{{ number_format($p->harga, 0, ',', '.') }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+
+                                <div class="form-group">
+                                    <button type="button" id="tambahObat" class="btn btn-primary">Tambah Obat</button>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="daftarObat">Daftar Obat</label>
+                                    <ul id="daftarObat" class="list-group"></ul>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="totalHarga">Total Harga</label>
+                                    <input type="text" class="form-control" id="totalHarga" name="total_harga" value="Rp.0" readonly>
+                                </div>
                             </div>
-                            <!-- /.card-body -->
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Simpan Pemeriksaan</button>
                             </div>
                         </form>
                     </div>
-                    <!-- /.card -->
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const obatSelect = document.getElementById('obat');
+        const tambahObatBtn = document.getElementById('tambahObat');
+        const daftarObat = document.getElementById('daftarObat');
+        const totalHargaInput = document.getElementById('totalHarga');
+
+        let totalHarga = 0;
+
+        tambahObatBtn.addEventListener('click', () => {
+            const selectedOption = obatSelect.options[obatSelect.selectedIndex];
+            const namaObat = selectedOption.textContent;
+            const hargaObat = parseInt(selectedOption.getAttribute('data-harga'));
+            const obatId = selectedOption.value;
+
+            if (obatId && hargaObat) {
+                // Tambahkan ke daftar obat
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                listItem.textContent = `${namaObat}`;
+
+                // Input hidden untuk menyimpan ID obat
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'obat_ids[]';
+                hiddenInput.value = obatId;
+                listItem.appendChild(hiddenInput);
+
+                // Tombol hapus
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn btn-danger btn-sm';
+                deleteBtn.textContent = 'Hapus';
+                deleteBtn.addEventListener('click', () => {
+                    daftarObat.removeChild(listItem);
+                    totalHarga -= hargaObat;
+                    totalHargaInput.value = `Rp.${totalHarga.toLocaleString()}`;
+                });
+
+                listItem.appendChild(deleteBtn);
+                daftarObat.appendChild(listItem);
+
+                // Update total harga
+                totalHarga += hargaObat;
+                totalHargaInput.value = `Rp.${totalHarga.toLocaleString()}`;
+            }
+        });
+    });
+</script>
 @endsection

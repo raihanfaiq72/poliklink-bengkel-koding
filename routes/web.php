@@ -21,6 +21,7 @@ Route::controller(PasienWell::class)->group(function(){
         Route::get('pasien/riwayat-poli','riwayat_poli')->name('pasien.poli.riwayat');
         Route::post('pasien/poli/daftar','poli_daftar')->name('pasien.poli.daftar');
         Route::get('pasien/riwayat-poli/{id}','riwayat_poli_detail')->name('pasien.poli.riwayat.detail');
+       
     });
 });
 
@@ -48,6 +49,8 @@ Route::controller(DokterWell::class)->group(function(){
  
         Route::get('dokter/profile','profile')->name('dokter.profile');
         Route::post('dokter/profile','profile_update')->name('dokter.profile.update');
+
+        Route::post('dokter/riwayat-poli/aow','periksa_pasien_post');
     });
 });
 

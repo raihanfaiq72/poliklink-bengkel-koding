@@ -158,67 +158,15 @@ class DokterWell extends Controller
 
     public function periksa_pasien_edit(Request $request,$id)
     {
-        $periksa = DaftarPoli::where('id', $id)->first(); 
-        $pemeriksaan = Periksa::where('id_daftar_poli', $id)->first(); 
-
-        if (!$pemeriksaan) {
-            $pemeriksaan = new Periksa();
-            $pemeriksaan->id_daftar_poli = $id;
-            $pemeriksaan->tgl_periksa = now();
-            $pemeriksaan->catatan = '';
-            $pemeriksaan->biaya_periksa = 0;
-            $pemeriksaan->save();
-        }
-
-        $detail_periksa = DetailPeriksa::where('id_periksa', $pemeriksaan->id)->get(); 
+        $daftarpoli = DaftarPoli::findOrFail($id);
         $obat = Obat::all();
-
-        return view($this->views.'Periksapasien.edit', [
-            'periksa' => $periksa,
-            'pemeriksaan' => $pemeriksaan,
-            'detail_periksa' => $detail_periksa,
-            'obat' => $obat,
-        ]);
+        return view($this->views.'Periksapasien.edit', compact('daftarpoli', 'obat'));
     }
 
-    public function periksa_pasien_update(Request $request, $id)
+    public function periksa_pasien_post(Request $request, $id)
     {
-        $periksa = DaftarPoli::where('id', $id)->first();
-        $pemeriksaan = Periksa::where('id_daftar_poli', $id)->first();
-
-        if (!$pemeriksaan) {
-            return redirect()->back()->with('error', 'Data pemeriksaan tidak ditemukan.');
-        }
-
-        $pemeriksaan->catatan = $request->input('catatan');
-        $pemeriksaan->biaya_periksa = $request->input('biaya_periksa');
-        $pemeriksaan->save();
-
-        foreach ($request->input('obat') as $id_obat) {
-            $detail = new DetailPeriksa();
-            $detail->id_periksa = $pemeriksaan->id;
-            $detail->id_obat = $id_obat;
-            $detail->save();
-        }
-
-        return redirect()->route('dokter.periksa-pasien.index')->with('success', 'Pemeriksaan selesai.');
+       
     }
-
-    public function periksa_pasien_show($id)
-    {
-        $pemeriksaan = Periksa::where('id_daftar_poli', $id)->first();
-        $detail_periksa = DetailPeriksa::where('id_periksa', $pemeriksaan->id)->get(); 
-        $total_biaya = $detail_periksa->sum(function ($detail) {
-            return $detail->obat->harga;
-        });
-
-        return view('dokter.periksa.show', [
-            'pemeriksaan' => $pemeriksaan,
-            'detail_periksa' => $detail_periksa,
-            'total_biaya' => $total_biaya
-        ]);
-    }
-
 
     public function periksa_pasien_periksa(Request $request)
     {
