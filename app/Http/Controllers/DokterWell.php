@@ -150,9 +150,12 @@ class DokterWell extends Controller
         $dokter = session()->get('id'); 
         $jadwal_periksa = JadwalPeriksa::where('id_dokter', $dokter)->first(); 
         $pasien_periksa = DaftarPoli::where('id_jadwal', $jadwal_periksa->id)->get();
+
+        $sudah_periksa = Periksa::get();
     
         return view($this->views.'Periksapasien.index', [
             'pasien_periksa' => $pasien_periksa,
+            'sudah_periksa' => $sudah_periksa
         ]);
     }
 
@@ -163,11 +166,44 @@ class DokterWell extends Controller
         return view($this->views.'Periksapasien.edit', compact('daftarpoli', 'obat'));
     }
 
-    public function periksa_pasien_post(Request $request, $id)
+    public function periksa_pasien_post(Request $request)
     {
-       
+        $data_periksa = [
+            'id_daftar_poli'    => $request->id_daftar_poli,
+            'tanggal_periksa'   => $request->tgl_periksa,
+            'catatan'           => $request->catatan,
+            'biaya_periksa'     => $request->biaya_periksa
+        ];
+    
+        $periksa = Periksa::create($data_periksa);
+        
+        if (is_array($request->obat_ids)) {
+            foreach ($request->obat_ids as $obat_id) {
+               
+                $data_detail = [
+                    'id_periksa' => $periksa->id,
+                    'id_obat'    => $obat_id
+                ];
+    
+                DetailPeriksa::create($data_detail);
+            }
+        } else {
+          
+            $data_detail = [
+                'id_periksa' => $periksa->id,
+                'id_obat'    => $request->obat_ids
+            ];
+    
+            DetailPeriksa::create($data_detail);
+        }
+    
+        return redirect('dokter/periksa-pasien')->with('alert',[
+            'type'      => 'success',
+            'title'     => 'Berhasil',
+            'message'   => 'Berhasil memeriksa'
+        ]);
     }
-
+    
     public function periksa_pasien_periksa(Request $request)
     {
         return view($this->views . 'Periksapasien.periksa');
@@ -175,7 +211,24 @@ class DokterWell extends Controller
 
     public function riwayat_pasien()
     {
-        return view($this->views . 'Riwayatpasien.index');
+        $dokter = session()->get('id'); 
+        $jadwal_periksa = JadwalPeriksa::where('id_dokter', $dokter)->first(); 
+        $pasien_periksa = DaftarPoli::where('id_jadwal', $jadwal_periksa->id)->get();
+        $riwayat = Periksa::get();
+        return view($this->views . 'Riwayatpasien.index',[
+            'riwayat'   => $riwayat
+        ]);
+    }
+
+    public function riwayat_pasien_show($id)
+    {
+        $riwayat = Periksa::where('id',$id)->first();
+        $obat = DetailPeriksa::get();
+
+        return view($this->views . 'Riwayatpasien.show',[
+            'riwayat'   => $riwayat,
+            'obat'      => $obat
+        ]);
     }
 
     public function profile()

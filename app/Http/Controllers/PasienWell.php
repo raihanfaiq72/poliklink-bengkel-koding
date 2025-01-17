@@ -120,6 +120,7 @@ class PasienWell extends Controller
         $dokters    = Dokter::where('id_poli', $poli->id)->get();
         $jadwals    = JadwalPeriksa::with('dokter')->whereIn('id_dokter', $dokters->pluck('id'))->get();
 
+        // dd($dokters);
         return view($this->views . "Poli.show", [
             'jadwals'   => $jadwals,
             'poli'      => $poli,
@@ -131,7 +132,7 @@ class PasienWell extends Controller
     public function riwayat_poli()
     {
         $session = session()->get('id');
-    
+        
         $daftar_poli = DaftarPoli::where('id_pasien', $session)->get();
         
         $periksa = Periksa::all();
@@ -182,7 +183,7 @@ class PasienWell extends Controller
     }
 
     public function riwayat_poli_detail($id)
-    {
+    { 
         $daftarpoli = DaftarPoli::where('id', $id)->first();
         if (!$daftarpoli) {
             return redirect()->route('pasien.riwayat-poli')->with('alert', [

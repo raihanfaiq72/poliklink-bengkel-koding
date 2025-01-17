@@ -41,7 +41,7 @@
 
                                 <div class="form-group">
                                     <label for="tanggal_periksa">Tanggal Pemeriksaan</label>
-                                    <input type="date" class="form-control" value="tgl_periksa">
+                                    <input type="date" class="form-control" name="tgl_periksa" value="tgl_periksa">
                                 </div>
 
                                 <div class="form-group">
@@ -70,7 +70,7 @@
 
                                 <div class="form-group">
                                     <label for="totalHarga">Total Harga</label>
-                                    <input type="text" class="form-control" id="totalHarga" name="total_harga" value="Rp.0" readonly>
+                                    <input type="text" class="form-control" id="totalHarga" name="biaya_periksa" value="Rp.0" readonly>
                                 </div>
                             </div>
                             <div class="card-footer">

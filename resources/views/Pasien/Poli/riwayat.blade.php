@@ -59,11 +59,11 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($daftar_poli as $polri)
-                                    <tr>
+                                    <tr> 
                                         <td>{{ $loop->iteration }}</td>
 
                                         <!-- Nama Poli -->
-                                        <td>{{ $polri->jadwalPeriksa->poli ? $polri->jadwalPeriksa->poli->nama_poli : 'Data Tidak Tersedia' }}</td>
+                                        <td>{{ $polri->jadwalPeriksa->dokter->poli->nama_poli }}</td>
 
                                         <!-- Nama Dokter -->
                                         <td>{{ $polri->jadwalPeriksa->dokter ? $polri->jadwalPeriksa->dokter->nama_dokter : 'Data Tidak Tersedia' }}</td>

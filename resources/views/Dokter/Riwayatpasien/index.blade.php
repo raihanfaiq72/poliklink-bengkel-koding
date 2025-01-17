@@ -47,44 +47,28 @@
                                         <th>#</th>
                                         <th>Nama Pasien</th>
                                         <th>Alamat</th>
-                                        <th>No. KTP</th>
-                                        <th>No. Telepon</th>
-                                        <th>No. RM</th>
+                                        <th>Tanggal Periksa</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                {{-- <tbody>
-                                    @forelse ($jadwal->where('id_dokter',session()->get('id')) as $polri)
-                                    <tr>
+                                <tbody>
+                                @forelse ($riwayat as $polri)
+                                   
+                                   <tr>
 
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$polri->dokter->nama_dokter}}</td>
-                                        <td>{{$polri->hari}}</td>
-                                        <td>{{$polri->jam_mulai}}</td>
-                                        <td>{{$polri->jam_selesai}}</td>
-                                        <td>
-                                            @if($polri->status == 1)
-                                                Aktif
-                                            @elseif($polri->status == 2)
-                                                Tidak Aktif
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content">
-                                                <a href="{{ url('dokter/jadwal-periksa/' . $polri->id) }}/edit" class="btn btn-primary">Edit</a>
-                                                <form action="{{ url('dokter/jadwal-periksa/' . $polri->id) }}/delete" method="POST" style="margin-left: 10px;">
-                                                    @csrf
-                                                    <button class="btn btn-danger" onclick="confirmDelete('{{ url('dokter/jadwal-periksa/' . $polri->id) }}/delete')">Hapus</button>                                                    </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @empty
-                                    <tr>
-                                        <td>Kosong</td>
-                                    </tr>
-                                    @endforelse
+                                       <td>{{$loop->iteration}}</td>
+                                       <td>{{$polri->daftarPoli->pasien->nama ?? 'kosong'}}</td>
+                                       <td>{{$polri->daftarPoli->pasien->alamat ?? 'kosong'}}</td>
+                                       <td>{{$polri->tanggal_periksa}}</td>
+                                       <td><a href="{{ url('dokter/riwayat-pasien/' . $polri->id) }}/show" class="btn btn-primary">Detail</a></td>
+                                   </tr>
+                                   @empty
+                                   <tr>
+                                       <td>Kosong</td>
+                                   </tr>
+                                   @endforelse
                                 
-                                </tbody> --}}
+                                </tbody>
                             </table>
                         </div>
                         <!-- /.card-body -->

@@ -60,7 +60,11 @@
                                         <td>{{$polri->pasien->nama ?? 'kosong'}}</td>
                                         <td>{{$polri->keluhan}}</td>
                                         <td>
-                                            <a href="{{ url('dokter/periksa-pasien/' . $polri->id) }}/edit" class="btn btn-primary">Periksa</a>
+                                            @if($sudah_periksa->where('id_daftar_poli',$polri->id)->first())
+                                            <a href="#" >Sudah Periksa</a>
+                                            @else
+                                            <a href="{{ url('dokter/periksa-pasien/' . $polri->id) }}/edit" class="btn btn-primary">periksa</a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @empty
