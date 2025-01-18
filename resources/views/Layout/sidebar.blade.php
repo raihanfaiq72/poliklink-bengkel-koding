@@ -148,6 +148,15 @@
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="{{url('dokter/konsultasi')}}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Konsultasi
+                                </p>
+                            </a>
+                        </li>
+
 
                         <li class="nav-item">
                             <a href="{{route('dokter.riwayat-pasien')}}" class="nav-link">
@@ -237,6 +246,15 @@
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Riwayat Poli
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{url('pasien/konsultasi-dokter')}}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Konsultasi
                                 </p>
                             </a>
                         </li>
